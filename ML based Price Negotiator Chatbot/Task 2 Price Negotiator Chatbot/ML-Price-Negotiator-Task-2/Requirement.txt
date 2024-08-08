@@ -1,0 +1,20 @@
+pandas
+numpy
+astropy
+joblib
+matplotlib==3.4.3
+scikit-learn>=0.24.2
+openai
+rasa
+
+# NOTE: Install the latest version of these modules.
+# --> import pandas as pd
+# --> import numpy as np
+# --> import astropy
+# --> import joblib 
+# --> import matplotlib.pyplot as plt
+# --> from sklearn.feature_extraction.text import TfidfVectorizer
+# --> import openAI
+# --> from rasa_sdk import Action 
+# --> from rasa_sdk import Tracker
+# --> from rasa_sdk.executor import CollectingDispatcher

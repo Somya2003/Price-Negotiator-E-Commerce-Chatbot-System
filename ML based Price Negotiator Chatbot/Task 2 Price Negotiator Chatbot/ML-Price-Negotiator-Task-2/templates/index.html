@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Negotiator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://tse4.mm.bing.net/th?id=OIP.7i31LpDto4ehsRLFAeNVNwHaD4&pid=Api&P=0&h=180') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9); /* White background with slight transparency */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+        form {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .response {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Price Negotiator</h1>
+
+        <div class="form-section">
+            <h2>Negotiate Price</h2>
+            <form id="negotiateForm">
+                <label for="inputText">Input Text:</label>
+                <input type="text" id="inputText" name="inputText" required>
+                
+                <label for="productId">Product ID:</label>
+                <input type="number" id="productId" name="productId" required>
+                
+                <label for="userId">User ID:</label>
+                <input type="number" id="userId" name="userId" required>
+                
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+        <div class="form-section">
+            <h2>Order</h2>
+            <form id="orderForm">
+                <label for="orderProductId">Product ID:</label>
+                <input type="number" id="orderProductId" name="productId" required>
+                
+                <label for="orderUserId">User ID:</label>
+                <input type="number" id="orderUserId" name="userId" required>
+                
+                <label for="orderPrice">Price:</label>
+                <input type="number" id="orderPrice" name="price" step="0.01" required>
+                
+                <input type="submit" value="Place Order">
+            </form>
+        </div>
+
+        <div id="response" class="response"></div>
+    </div>
+
+    <script>
+        document.getElementById('negotiateForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const responseDiv = document.getElementById('response');
+            const response = await fetch('/negotiate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    input_text: document.getElementById('inputText').value,
+                    product_id: parseInt(document.getElementById('productId').value),
+                    user_id: parseInt(document.getElementById('userId').value)
+                })
+            });
+            const result = await response.json();
+            responseDiv.innerText = result.response || result.error;
+        });
+
+        document.getElementById('orderForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const responseDiv = document.getElementById('response');
+            const response = await fetch('/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    product_id: parseInt(document.getElementById('orderProductId').value),
+                    user_id: parseInt(document.getElementById('orderUserId').value),
+                    price: parseFloat(document.getElementById('orderPrice').value)
+                })
+            });
+            const result = await response.json();
+            responseDiv.innerText = result.response || result.error;
+        });
+    </script>
+</body>
+</html>
+
+
